@@ -1,0 +1,4 @@
+steps:
+  - bash: |
+      pip install ansible
+    displayName: Install Ansible

@@ -1,0 +1,47 @@
+#-------------------------------------------------------------------------------
+# Pipeline name: terraform-azure-ansible
+#-------------------------------------------------------------------------------
+trigger: none
+
+pool:
+  vmImage: ubuntu-20.04
+
+parameters:
+- name: run_bootstrap
+  default: false
+  type: boolean
+  displayName: Run Bootstrap
+
+stages:
+# West Europe
+- template: stages/terraform-bootstrap.yml
+  parameters:
+    condition: eq(${{ parameters.run_bootstrap }}, true)
+    stage: lab
+    subscription_service_connection: visual-studio-ozw1ca-sp
+- template: stages/tf-plan.yml
+  parameters:
+    stage: lab
+    region: we
+- template: stages/tf-apply.yml
+  parameters:
+    stage: lab
+    region: we
+- template: stages/deploy-hello-world-app.yml
+  parameters:
+    stage: lab
+    region: we
+
+# Switzerland North
+- template: stages/tf-plan.yml
+  parameters:
+    stage: lab
+    region: sn
+- template: stages/tf-apply.yml
+  parameters:
+    stage: lab
+    region: sn
+- template: stages/deploy-hello-world-app.yml
+  parameters:
+    stage: lab
+    region: sn

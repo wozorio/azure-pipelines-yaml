@@ -1,0 +1,14 @@
+parameters:
+  - name: condition
+  - name: stage
+  - name: subscription_service_connection
+
+stages:
+  - stage: ${{ parameters.stage }}_terraform_bootstrap
+    condition: ${{ parameters.condition }}
+    jobs:
+      - job: terraform_bootstrap
+        steps:
+          - template: ../steps/terraform-bootstrap.yml
+            parameters:
+              subscription_service_connection: ${{ parameters.subscription_service_connection }}

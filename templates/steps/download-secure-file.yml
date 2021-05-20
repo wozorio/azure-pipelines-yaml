@@ -1,0 +1,10 @@
+parameters:
+  - name: secure_file_name
+
+steps:
+  - task: DownloadSecureFile@1
+    inputs:
+      secureFile: ${{ parameters.secure_file_name }}
+      retryCount: 3
+    displayName: "Download secure file: ${{ parameters.secure_file_name }}"
+    enabled: true

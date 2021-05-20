@@ -1,0 +1,16 @@
+parameters:
+  - name: stage
+  - name: region
+
+stages:
+  - stage: ${{ parameters.stage }}_deploy_app_hello_world_${{ parameters.region }}
+    variables:
+      - template: ../variables/${{ parameters.stage }}/common.yml
+    jobs:
+      - template: ../jobs/deploy-hello-world-app.yml
+        parameters:
+          ansible_inventory_filepath: ansible/inventories/${{ parameters.stage }}/hosts
+          ansible_host: docker_hosts_${{ parameters.region }}
+          ansible_host_ssh_key_filename: ${{ variables.ANSIBLE_HOST_SSH_KEY_FILENAME }}
+          ansible_username: $(ANSIBLE_USERNAME)
+          ansible_playbook_filepath: $(ANSIBLE_PLAYBOOK_FILEPATH_HELLO_WORLD)

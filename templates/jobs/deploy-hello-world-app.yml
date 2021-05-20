@@ -1,0 +1,24 @@
+parameters:
+  - name: ansible_inventory_filepath
+  - name: ansible_host
+  - name: ansible_host_ssh_key_filename
+  - name: ansible_username
+  - name: ansible_playbook_filepath
+
+jobs:
+  - job: deploy_hello_world
+    steps:
+      - template: ../steps/install-ansible.yml
+
+      - template: ../steps/download-secure-file.yml
+        parameters:
+          secure_file_name: ${{ parameters.ansible_host_ssh_key_filename }}
+
+      - template: ../steps/run-ansible-playbook.yml
+        parameters:
+          ansible_inventory_filepath: ${{ parameters.ansible_inventory_filepath }}
+          ansible_host: ${{ parameters.ansible_host }}
+          ansible_host_ssh_key_filename: ${{ parameters.ansible_host_ssh_key_filename }}
+          ansible_username: ${{ parameters.ansible_username }}
+          ansible_playbook_filepath: ${{ parameters.ansible_playbook_filepath }}
+          display_name: Run Ansible playbook for hello-world
