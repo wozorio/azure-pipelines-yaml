@@ -45,31 +45,49 @@ function create_storage_account() {
     else
         echo "INFO: Creating storage account: ${STORAGE_ACCOUNT_NAME}"
         az storage account create \
-            --name "${STORAGE_ACCOUNT_NAME}" \
-            --resource-group "${RESOURCE_GROUP_NAME}" \
-            --access-tier "Cool" \
-            --kind "BlobStorage" \
-            --location "${LOCATION}" \
-            --sku "Standard_LRS" \
-            --https-only $true \
-            --allow-blob-public-access $false \
-            --min-tls-version "TLS1_2"
+        --name "${STORAGE_ACCOUNT_NAME}" \
+        --resource-group "${RESOURCE_GROUP_NAME}" \
+        --access-tier "Cool" \
+        --kind "BlobStorage" \
+        --location "${LOCATION}" \
+        --sku "Standard_LRS" \
+        --https-only true \
+        --allow-blob-public-access false \
+        --min-tls-version "TLS1_2"
+
+        # Enable versioning
+        # https://docs.microsoft.com/en-us/azure/storage/blobs/versioning-overview
+        az storage account blob-service-properties update \
+        --account-name "${STORAGE_ACCOUNT_NAME}" \
+        --resource-group "${RESOURCE_GROUP_NAME}" \
+        --enable-versioning true \
+        --enable-delete-retention true \
+        --delete-retention-days 30 \
+        --container-retention true \
+        --container-days 30
+
+        # Delete old versions
+        # https://docs.microsoft.com/en-us/azure/storage/blobs/storage-lifecycle-management-concepts?tabs=azure-portal
+        az storage account management-policy create \
+        --account-name "${STORAGE_ACCOUNT_NAME}" \
+        --resource-group "${RESOURCE_GROUP_NAME}" \
+        --policy "@files/azure-blob-policy-delete-old-versions.json"
     fi
 }
 
 function create_storage_container() {
     STORAGE_ACCOUNT_KEY=$(
         az storage account keys list \
-            --account-name "${STORAGE_ACCOUNT_NAME}" \
-            --query "[0].value"
+        --account-name "${STORAGE_ACCOUNT_NAME}" \
+        --query "[0].value"
     )
 
     STORAGE_CONTAINER_EXISTS=$(
         az storage container exists \
-            --name "${STORAGE_CONTAINER_NAME}" \
-            --account-name "${STORAGE_ACCOUNT_NAME}" \
-            --account-key "${STORAGE_ACCOUNT_KEY}" \
-            --query "exists"
+        --name "${STORAGE_CONTAINER_NAME}" \
+        --account-name "${STORAGE_ACCOUNT_NAME}" \
+        --account-key "${STORAGE_ACCOUNT_KEY}" \
+        --query "exists"
     )
 
     if [[ "${STORAGE_CONTAINER_EXISTS}" == "true" ]]; then
