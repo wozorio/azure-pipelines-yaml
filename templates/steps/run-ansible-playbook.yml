@@ -8,8 +8,8 @@ parameters:
 
 steps:
   - bash: |
-      # Grant read/right permissions on the private key file for SSH to the owner only
-      chmod 600 $(Agent.TempDirectory)/${{ parameters.ansible_host_ssh_key_filename }}
+      # Grant read permission on the private key file for SSH to the owner only
+      chmod 400 $(Agent.TempDirectory)/${{ parameters.ansible_host_ssh_key_filename }}
 
       # Run the playbook
       ansible-playbook \
