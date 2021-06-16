@@ -6,7 +6,7 @@ stages:
   - stage: ${{ parameters.stage }}_tf_plan_${{ parameters.region }}
     dependsOn: []
     variables:
-      - template: ../variables/${{ parameters.stage }}/common.yml
+      - template: ../vars/vars-${{ parameters.stage }}.yml
       - group: ${{ parameters.stage }}
     jobs:
       - template: ../jobs/tf-plan.yml
