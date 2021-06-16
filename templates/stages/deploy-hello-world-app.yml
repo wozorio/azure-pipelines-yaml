@@ -11,6 +11,6 @@ stages:
         parameters:
           ansible_inventory_filepath: ansible/inventories/${{ parameters.stage }}/hosts
           ansible_host: docker_hosts_${{ parameters.region }}
-          ansible_host_ssh_key_filename: ${{ variables.ANSIBLE_HOST_SSH_KEY_FILENAME }}
-          ansible_username: $(ANSIBLE_USERNAME)
-          ansible_playbook_filepath: $(ANSIBLE_PLAYBOOK_FILEPATH_HELLO_WORLD)
+          ansible_host_ssh_key_filename: ${{ variables.ansible_host_ssh_key_filename }}
+          ansible_username: $(ansible_username)
+          ansible_playbook_filepath: $(ansible_playbook_filepath_hello_world)
