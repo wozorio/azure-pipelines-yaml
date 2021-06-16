@@ -1,13 +1,7 @@
 variables:
-  - name: ENVIRONMENT
-    value: lab
-  - name: TF_VERSION
-    value: 0.15.3
-  - name: TF_STORAGE_ACCOUNT_NAME
-    value: stterraformwozorio
-  - name: ANSIBLE_USERNAME
-    value: ansible
-  - name: ANSIBLE_HOST_SSH_KEY_FILENAME
-    value: id_rsa
-  - name: ANSIBLE_PLAYBOOK_FILEPATH_HELLO_WORLD
-    value: ansible/playbook-hello-world.yml
+  environment: lab
+  tf_version: 0.15.3
+  tf_storage_account_name: stterraformwozorio
+  ansible_username: ansible
+  ansible_host_ssh_key_filename: id_rsa
+  ansible_playbook_filepath_hello_world: ansible/playbook-hello-world.yml
