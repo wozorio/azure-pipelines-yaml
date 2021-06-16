@@ -11,12 +11,12 @@ stages:
     jobs:
       - template: ../jobs/tf-plan.yml
         parameters:
-          terraform_version: $(TF_VERSION)
+          terraform_version: $(tf_version)
           service_principal_id: $(SERVICE_PRINCIPAL_ID)
           service_principal_secret: $(SERVICE_PRINCIPAL_SECRET)
           tenant_id: $(TENANT_ID)
           subscription_id: $(SUBSCRIPTION_ID)
-          storage_account_name: $(TF_STORAGE_ACCOUNT_NAME)
+          storage_account_name: $(tf_storage_account_name)
           working_directory: terraform
-          terraform_backend_config: -backend-config="../terraform/environments/$(ENVIRONMENT)/tf-backend-${{ parameters.region }}.conf"
-          terraform_parameters: -var-file="../terraform/environments/$(ENVIRONMENT)/terraform-${{ parameters.region }}.tfvars"
+          terraform_backend_config: -backend-config="../terraform/environments/$(environment)/tf-backend-${{ parameters.region }}.conf"
+          terraform_parameters: -var-file="../terraform/environments/$(environment)/terraform-${{ parameters.region }}.tfvars"
