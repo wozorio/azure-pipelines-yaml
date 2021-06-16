@@ -5,7 +5,7 @@ parameters:
 stages:
   - stage: ${{ parameters.stage }}_tf_apply_${{ parameters.region }}
     variables:
-      - template: ../variables/${{ parameters.stage }}/common.yml
+      - template: ../vars/vars-${{ parameters.stage }}.yml
       - group: ${{ parameters.stage }}
     jobs:
       - template: ../jobs/tf-apply.yml
