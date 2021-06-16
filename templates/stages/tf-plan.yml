@@ -12,10 +12,10 @@ stages:
       - template: ../jobs/tf-plan.yml
         parameters:
           terraform_version: $(tf_version)
-          service_principal_id: $(SERVICE_PRINCIPAL_ID)
-          service_principal_secret: $(SERVICE_PRINCIPAL_SECRET)
-          tenant_id: $(TENANT_ID)
-          subscription_id: $(SUBSCRIPTION_ID)
+          service_principal_id: $(service_principal_id)
+          service_principal_secret: $(service_principal_secret)
+          tenant_id: $(tenant_id)
+          subscription_id: $(subscription_id)
           storage_account_name: $(tf_storage_account_name)
           working_directory: terraform
           terraform_backend_config: -backend-config="../terraform/environments/$(environment)/tf-backend-${{ parameters.region }}.conf"
