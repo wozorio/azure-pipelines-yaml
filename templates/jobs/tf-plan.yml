@@ -1,35 +1,33 @@
 parameters:
-  - name: terraform_version
+  - name: stage
   - name: terraform_parameters
     default: ""
   - name: terraform_backend_config
   - name: working_directory
-  - name: storage_account_name
-  - name: service_principal_id
-  - name: service_principal_secret
-  - name: tenant_id
-  - name: subscription_id
 
 jobs:
   - job: terraform_plan
+    variables:
+    - template: ../vars/vars-${{ parameters.stage }}.yml
+    - group: ${{ parameters.stage }}
     steps:
       # AZ Login
       - template: ../steps/az-login.yml
         parameters:
-          service_principal_id: ${{ parameters.service_principal_id }}
-          service_principal_secret: ${{ parameters.service_principal_secret }}
-          tenant_id: ${{ parameters.tenant_id }}
-          subscription_id: ${{ parameters.subscription_id }}
+          service_principal_id: $(service_principal_id)
+          service_principal_secret: $(service_principal_secret)
+          tenant_id: $(tenant_id)
+          subscription_id: $(subscription_id)
 
       # Terraform Plan
       - template: ../steps/tf-plan.yml
         parameters:
-          service_principal_id: ${{ parameters.service_principal_id }}
-          service_principal_secret: ${{ parameters.service_principal_secret }}
-          subscription_id: ${{ parameters.subscription_id }}
-          tenant_id: ${{ parameters.tenant_id }}
-          storage_account_name: ${{ parameters.storage_account_name }}
+          service_principal_id: $(service_principal_id)
+          service_principal_secret: $(service_principal_secret)
+          subscription_id: $(subscription_id)
+          tenant_id: $(tenant_id)
+          storage_account_name: $(tf_storage_account_name)
           working_directory: ${{ parameters.working_directory }}
-          terraform_version: ${{ parameters.terraform_version }}
+          terraform_version: $(tf_version)
           terraform_parameters: ${{ parameters.terraform_parameters }}
           terraform_backend_config: ${{ parameters.terraform_backend_config }}
