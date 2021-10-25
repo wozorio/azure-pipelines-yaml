@@ -22,6 +22,7 @@ stages:
 # North Europe
 - template: stages/tf-plan.yml
   parameters:
+    depends_on: lab_terraform_bootstrap
     stage: lab
     region: ne
 - template: stages/tf-apply.yml
@@ -29,15 +30,16 @@ stages:
     depends_on: lab_tf_plan_ne
     stage: lab
     region: ne
-#- template: stages/deploy-hello-world-app.yml
-#  parameters:
-#    depends_on: lab_tf_apply_ne
-#    stage: lab
-#    region: ne
+- template: stages/deploy-hello-world-app.yml
+  parameters:
+    depends_on: lab_tf_apply_ne
+    stage: lab
+    region: ne
 
 # West Europe
 - template: stages/tf-plan.yml
   parameters:
+    depends_on: lab_terraform_bootstrap
     stage: lab
     region: we
 - template: stages/tf-apply.yml
@@ -45,8 +47,8 @@ stages:
     depends_on: lab_tf_plan_we
     stage: lab
     region: we
-#- template: stages/deploy-hello-world-app.yml
-#  parameters:
-#    depends_on: lab_tf_apply_ne
-#    stage: lab
-#    region: we
+- template: stages/deploy-hello-world-app.yml
+  parameters:
+    depends_on: lab_tf_apply_ne
+    stage: lab
+    region: we
