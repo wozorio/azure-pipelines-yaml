@@ -1,9 +1,12 @@
 parameters:
   - name: stage
   - name: region
+  - name: depends_on
+    default: []
 
 stages:
   - stage: ${{ parameters.stage }}_deploy_app_hello_world_${{ parameters.region }}
+    dependsOn: ${{ parameters.depends_on }}
     variables:
       - template: ../vars/vars-${{ parameters.stage }}.yml
     jobs:
