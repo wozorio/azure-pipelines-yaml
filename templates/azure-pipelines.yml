@@ -18,12 +18,11 @@ stages:
     condition: eq(${{ parameters.run_bootstrap }}, true)
     stage: lab
     subscription_service_connection: visual-studio-ozw1ca-sp
-#################################################
+
 # North Europe
-#################################################
 - template: stages/tf-plan.yml
   parameters:
-    depends_on: lab_terraform_bootstrap
+    depends_on: and(succeeded(), eq('${{ parameters.run_bootstrap }}', 'true'))
     stage: lab
     region: ne
 - template: stages/tf-apply.yml
@@ -36,9 +35,8 @@ stages:
     depends_on: lab_tf_apply_ne
     stage: lab
     region: ne
-#################################################
+
 # West Europe
-#################################################
 - template: stages/tf-plan.yml
   parameters:
     depends_on: lab_terraform_bootstrap
