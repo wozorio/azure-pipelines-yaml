@@ -49,6 +49,6 @@ stages:
     region: we
 - template: stages/deploy-hello-world-app.yml
   parameters:
-    depends_on: lab_tf_apply_ne
+    depends_on: lab_tf_apply_we
     stage: lab
     region: we
