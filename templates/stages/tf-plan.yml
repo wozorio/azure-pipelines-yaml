@@ -3,10 +3,13 @@ parameters:
   - name: region
   - name: depends_on
     default: ''
+  - name: skip
+    default: false
 
 stages:
   - stage: ${{ parameters.stage }}_tf_plan_${{ parameters.region }}
     dependsOn: ${{ parameters.depends_on }}
+    condition: and(succeeded(), eq('${{ parameters.skip }}', 'false'))
     variables:
       - template: ../vars/vars-${{ parameters.stage }}.yml
       - group: ${{ parameters.stage }}
