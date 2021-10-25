@@ -9,7 +9,7 @@ parameters:
 stages:
   - stage: ${{ parameters.stage }}_deploy_app_hello_world_${{ parameters.region }}
     dependsOn: ${{ parameters.depends_on }}
-    condition: and(succeeded(), eq('${{ parameters.skip }}', 'false'))
+    condition: and(not(failed()), eq('${{ parameters.skip }}', 'false'))
     variables:
       - template: ../vars/vars-${{ parameters.stage }}.yml
     jobs:
