@@ -2,7 +2,7 @@ parameters:
   - name: stage
   - name: region
   - name: depends_on
-    default: []
+    default: ''
 
 stages:
   - stage: ${{ parameters.stage }}_tf_apply_${{ parameters.region }}
