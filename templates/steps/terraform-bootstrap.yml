@@ -2,11 +2,18 @@ parameters:
   - name: subscription_service_connection
 
 steps:
+  - task: Bash@3
+    displayName: Clone GitHub repo bash-scripts
+    inputs:
+      targetType: 'inline'
+      script: |
+        git clone https://github.com/wozorio/bash-scripts.git
+
   - task: AzureCLI@2
     displayName: Create Terraform storage account
     inputs:
       azureSubscription: ${{ parameters.subscription_service_connection }}
       scriptType: bash
       scriptLocation: scriptPath
-      scriptPath: pipelines/scripts/azure-terraform-bootstrap.sh
+      scriptPath: ./bash-scripts/azure-terraform-bootstrap.sh
       arguments: rg-terraform westeurope stterraformwozorio
