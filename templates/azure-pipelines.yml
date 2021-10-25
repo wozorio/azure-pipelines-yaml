@@ -22,7 +22,7 @@ stages:
 # North Europe
 - template: stages/tf-plan.yml
   parameters:
-    depends_on: and(succeeded(), eq('${{ parameters.run_bootstrap }}', 'true'))
+    depends_on: lab_terraform_bootstrap
     stage: lab
     region: ne
 - template: stages/tf-apply.yml
