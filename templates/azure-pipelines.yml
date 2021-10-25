@@ -22,33 +22,27 @@ stages:
 # North Europe
 - template: stages/tf-plan.yml
   parameters:
-    name: tf_plan
     stage: lab
     region: ne
 - template: stages/tf-apply.yml
   parameters:
-    name: tf_apply
     stage: lab
     region: ne
 - template: stages/deploy-hello-world-app.yml
   parameters:
-    name: deploy_hello_world_app
     stage: lab
     region: ne
 
 # West Europe
 - template: stages/tf-plan.yml
   parameters:
-    name: tf_plan
     stage: lab
     region: we
 - template: stages/tf-apply.yml
   parameters:
-    name: tf_apply
     stage: lab
     region: we
 - template: stages/deploy-hello-world-app.yml
   parameters:
-    name: deploy_hello_world_app
     stage: lab
     region: we
