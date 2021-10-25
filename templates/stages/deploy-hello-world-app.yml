@@ -3,7 +3,7 @@ parameters:
   - name: region
   - name: depends_on
     default: ''
-   - name: skip
+  - name: skip
     default: false
 
 stages:
