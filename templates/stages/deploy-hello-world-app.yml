@@ -2,7 +2,7 @@ parameters:
   - name: stage
   - name: region
   - name: depends_on
-    default: []
+    default: ''
 
 stages:
   - stage: ${{ parameters.stage }}_deploy_app_hello_world_${{ parameters.region }}
