@@ -1,5 +1,4 @@
 variables:
-  environment: lab
   tf_version: 0.15.3
   tf_storage_account_name: stterraformwozorio
   ansible_username: ansible
