@@ -1,5 +1,4 @@
 parameters:
-  - name: stage
   - name: environment
   - name: terraform_parameters
     default: ""
@@ -9,8 +8,8 @@ parameters:
 jobs:
   - deployment: terraform_apply
     variables:
-    - template: ../vars/vars-${{ parameters.stage }}.yml
-    - group: ${{ parameters.stage }}
+    - template: ../vars/vars-${{ parameters.environment }}.yml
+    - group: ${{ parameters.environment }}
     environment: ${{ parameters.environment }}
     strategy:
       runOnce:

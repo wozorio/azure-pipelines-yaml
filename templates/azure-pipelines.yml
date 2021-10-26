@@ -1,54 +1,51 @@
-#-------------------------------------------------------------------------------
-# Pipeline name: Azure Pipeline example
-#-------------------------------------------------------------------------------
 trigger: none
 
 pool:
   vmImage: ubuntu-20.04
 
 parameters:
-- name: run_bootstrap
-  default: false
-  type: boolean
-  displayName: Run Bootstrap
+  - name: run_bootstrap
+    default: false
+    type: boolean
+    displayName: Run Bootstrap
 
 stages:
-- template: stages/terraform-bootstrap.yml
-  parameters:
-    condition: eq(${{ parameters.run_bootstrap }}, true)
-    stage: lab
-    subscription_service_connection: visual-studio-ozw1ca-sp
+  - template: stages/terraform-bootstrap.yml
+    parameters:
+      condition: eq(${{ parameters.run_bootstrap }}, true)
+      environment: lab
+      subscription_service_connection: visual-studio-ozw1ca-sp
 
-# North Europe
-- template: stages/tf-plan.yml
-  parameters:
-    depends_on: lab_terraform_bootstrap
-    stage: lab
-    region: ne
-- template: stages/tf-apply.yml
-  parameters:
-    depends_on: lab_tf_plan_ne
-    stage: lab
-    region: ne
-- template: stages/deploy-hello-world-app.yml
-  parameters:
-    depends_on: lab_tf_apply_ne
-    stage: lab
-    region: ne
+  # North Europe
+  - template: stages/tf-plan.yml
+    parameters:
+      depends_on: lab_terraform_bootstrap
+      environment: lab
+      region: ne
+  - template: stages/tf-apply.yml
+    parameters:
+      depends_on: lab_tf_plan_ne
+      environment: lab
+      region: ne
+  - template: stages/deploy-hello-world-app.yml
+    parameters:
+      depends_on: lab_tf_apply_ne
+      environment: lab
+      region: ne
 
-# West Europe
-- template: stages/tf-plan.yml
-  parameters:
-    depends_on: lab_terraform_bootstrap
-    stage: lab
-    region: we
-- template: stages/tf-apply.yml
-  parameters:
-    depends_on: lab_tf_plan_we
-    stage: lab
-    region: we
-- template: stages/deploy-hello-world-app.yml
-  parameters:
-    depends_on: lab_tf_apply_we
-    stage: lab
-    region: we
+  # West Europe
+  - template: stages/tf-plan.yml
+    parameters:
+      depends_on: lab_terraform_bootstrap
+      environment: lab
+      region: we
+  - template: stages/tf-apply.yml
+    parameters:
+      depends_on: lab_tf_plan_we
+      environment: lab
+      region: we
+  - template: stages/deploy-hello-world-app.yml
+    parameters:
+      depends_on: lab_tf_apply_we
+      environment: lab
+      region: we

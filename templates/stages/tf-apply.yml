@@ -1,5 +1,5 @@
 parameters:
-  - name: stage
+  - name: environment
   - name: region
   - name: depends_on
     default: ""
@@ -7,14 +7,14 @@ parameters:
     default: false
 
 stages:
-  - stage: ${{ parameters.stage }}_tf_apply_${{ parameters.region }}
+  - stage: ${{ parameters.environment }}_tf_apply_${{ parameters.region }}
     dependsOn: ${{ parameters.depends_on }}
     condition: and(not(failed()), eq('${{ parameters.skip }}', 'false'))
     jobs:
       - template: ../jobs/tf-apply.yml
         parameters:
-          environment: ${{ parameters.stage }}
-          stage: ${{ parameters.stage }}
+          environment: ${{ parameters.environment }}
+          stage: ${{ parameters.environment }}
           working_directory: terraform
           terraform_backend_config: -backend-config="../terraform/environments/$(environment)/tf-backend-${{ parameters.region }}.conf"
           terraform_parameters: -var-file="../terraform/environments/$(environment)/terraform-${{ parameters.region }}.tfvars"

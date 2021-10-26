@@ -1,5 +1,5 @@
 parameters:
-  - name: stage
+  - name: environment
   - name: terraform_parameters
     default: ""
   - name: terraform_backend_config
@@ -8,8 +8,8 @@ parameters:
 jobs:
   - job: terraform_plan
     variables:
-    - template: ../vars/vars-${{ parameters.stage }}.yml
-    - group: ${{ parameters.stage }}
+    - template: ../vars/vars-${{ parameters.environment }}.yml
+    - group: ${{ parameters.environment }}
     steps:
       # AZ Login
       - template: ../steps/az-login.yml
