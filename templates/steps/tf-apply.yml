@@ -1,31 +1,23 @@
 parameters:
-  - name: service_principal_id
-  - name: service_principal_secret
-  - name: subscription_id
-  - name: tenant_id
-  - name: storage_account_name
   - name: working_directory
   - name: terraform_parameters
     default: ""
   - name: terraform_backend_config
-  - name: terraform_version
 
 steps:
   # Terraform Init
   - template: tf-init.yml
     parameters:
-      storage_account_name: ${{ parameters.storage_account_name }}
       working_directory: ${{ parameters.working_directory }}
-      terraform_version: ${{ parameters.terraform_version }}
       terraform_backend_config: ${{ parameters.terraform_backend_config }}
 
   # Terraform Apply
   - bash: |
       # Set environment variables
-      export ARM_SUBSCRIPTION_ID=${{ parameters.subscription_id }}
-      export ARM_CLIENT_ID=${{ parameters.service_principal_id }}
-      export ARM_CLIENT_SECRET=${{ parameters.service_principal_secret }}
-      export ARM_TENANT_ID=${{ parameters.tenant_id }}
+      export ARM_SUBSCRIPTION_ID=$(subscription_id)
+      export ARM_CLIENT_ID=$(service_principal_id)
+      export ARM_CLIENT_SECRET=$(service_principal_secret)
+      export ARM_TENANT_ID=$(tenant_id)
 
       # Terraform Apply
       terraform apply -auto-approve -no-color ${{ parameters.terraform_parameters }}

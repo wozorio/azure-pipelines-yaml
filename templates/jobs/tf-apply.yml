@@ -19,21 +19,10 @@ jobs:
             - checkout: self
             # AZ Login
             - template: ../steps/az-login.yml
-              parameters:
-                service_principal_id: $(service_principal_id)
-                service_principal_secret: $(service_principal_secret)
-                tenant_id: $(tenant_id)
-                subscription_id: $(subscription_id)
 
             # Terraform Apply
             - template: ../steps/tf-apply.yml
               parameters:
-                service_principal_id: $(service_principal_id)
-                service_principal_secret: $(service_principal_secret)
-                subscription_id: $(subscription_id)
-                tenant_id: $(tenant_id)
-                storage_account_name: $(tf_storage_account_name)
                 working_directory: ${{ parameters.working_directory }}
-                terraform_version: $(tf_version)
                 terraform_parameters: ${{ parameters.terraform_parameters }}
                 terraform_backend_config: ${{ parameters.terraform_backend_config }}
