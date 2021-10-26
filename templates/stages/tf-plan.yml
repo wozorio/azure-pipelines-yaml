@@ -13,7 +13,7 @@ stages:
     jobs:
       - template: ../jobs/tf-plan.yml
         parameters:
-          stage: ${{ parameters.environment }}
+          environment: ${{ parameters.environment }}
           working_directory: terraform
           terraform_backend_config: -backend-config="../terraform/environments/$(environment)/tf-backend-${{ parameters.region }}.conf"
           terraform_parameters: -var-file="../terraform/environments/$(environment)/terraform-${{ parameters.region }}.tfvars"

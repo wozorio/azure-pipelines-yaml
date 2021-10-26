@@ -14,7 +14,6 @@ stages:
       - template: ../jobs/tf-apply.yml
         parameters:
           environment: ${{ parameters.environment }}
-          stage: ${{ parameters.environment }}
           working_directory: terraform
           terraform_backend_config: -backend-config="../terraform/environments/$(environment)/tf-backend-${{ parameters.region }}.conf"
           terraform_parameters: -var-file="../terraform/environments/$(environment)/terraform-${{ parameters.region }}.tfvars"
