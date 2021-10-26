@@ -1,5 +1,5 @@
 parameters:
-  - name: stage
+  - name: environment
   - name: region
   - name: depends_on
     default: ""
@@ -7,15 +7,15 @@ parameters:
     default: false
 
 stages:
-  - stage: ${{ parameters.stage }}_deploy_app_hello_world_${{ parameters.region }}
+  - stage: ${{ parameters.environment }}_deploy_app_hello_world_${{ parameters.region }}
     dependsOn: ${{ parameters.depends_on }}
     condition: and(not(failed()), eq('${{ parameters.skip }}', 'false'))
     variables:
-      - template: ../vars/vars-${{ parameters.stage }}.yml
+      - template: ../vars/vars-${{ parameters.environment }}.yml
     jobs:
       - template: ../jobs/deploy-hello-world-app.yml
         parameters:
-          ansible_inventory_filepath: ansible/inventories/${{ parameters.stage }}/hosts
+          ansible_inventory_filepath: ansible/inventories/${{ parameters.environment }}/hosts
           ansible_host: docker_hosts_${{ parameters.region }}
           ansible_host_ssh_key_filename: ${{ variables.ansible_host_ssh_key_filename }}
           ansible_username: $(ansible_username)

@@ -1,10 +1,10 @@
 parameters:
   - name: condition
-  - name: stage
+  - name: environment
   - name: subscription_service_connection
 
 stages:
-  - stage: ${{ parameters.stage }}_terraform_bootstrap
+  - stage: ${{ parameters.environment }}_terraform_bootstrap
     condition: ${{ parameters.condition }}
     jobs:
       - job: terraform_bootstrap
