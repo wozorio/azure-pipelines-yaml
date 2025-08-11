@@ -3,20 +3,21 @@ parameters:
   - name: terraform_backend_config
 
 steps:
-  # Terraform Init
   - bash: |
-      # Download Terraform binary for Linux x64
+      set -e
+
       wget https://releases.hashicorp.com/terraform/$(tf_version)/terraform_$(tf_version)_linux_amd64.zip 2>&1
       unzip terraform_$(tf_version)_linux_amd64.zip
       chmod +x terraform
-      sudo mv -f terraform /usr/local/bin/
+      sudo mv -f terraform /usr/local/bin
 
-      # Terraform Init
-      ACCESS_KEY=$(az storage account keys list \
-        --account-name $(tf_storage_account_name) \
-        --query "[0].value" | tr -d '"')
+      ACCESS_KEY=$(
+        az storage account keys list \
+          --account-name $(tf_storage_account_name) \
+          --query "[0].value"
+          --output tsv
+      )
 
       terraform init -backend-config="access_key=${ACCESS_KEY}" ${{ parameters.terraform_backend_config }} -no-color
     displayName: "Terraform Init"
-    failOnStderr: true
     workingDirectory: ${{ parameters.working_directory }}
