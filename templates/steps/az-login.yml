@@ -1,10 +1,16 @@
+parameters:
+  - name: username
+  - name: password
+  - name: tenant
+  - name: subscription_id
+
 steps:
   - bash: |
       az login \
         --service-principal \
-        --username $(service_principal_id) \
-        --password $(service_principal_secret) \
-        --tenant $(tenant_id)
+        --username ${{ parameters.username }} \
+        --password ${{ parameters.password }} \
+        --tenant ${{ parameters.tenant }}
 
-      az account set -s $(subscription_id)
-    displayName: "AZ Login"
+      az account set -s ${{ parameters.subscription_id }}
+    displayName: AZ Login
