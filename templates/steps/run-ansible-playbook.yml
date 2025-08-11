@@ -8,16 +8,16 @@ parameters:
 
 steps:
   - bash: |
-      # Grant read permission on the private key file for SSH to the owner only
+      set -e
+
       chmod 400 $(Agent.TempDirectory)/${{ parameters.ansible_host_ssh_key_filename }}
 
-      # Run the playbook
       ansible-playbook \
         --inventory ${{ parameters.ansible_inventory_filepath }} \
         --limit ${{ parameters.ansible_host }} \
         --user ${{ parameters.ansible_username }} \
         ${{ parameters.ansible_playbook_filepath }} \
         --extra-vars="ansible_ssh_private_key_file=$(Agent.TempDirectory)/${{ parameters.ansible_host_ssh_key_filename }}"
+    displayName: ${{ parameters.display_name }}
     env:
       ANSIBLE_HOST_KEY_CHECKING: False
-    displayName: ${{ parameters.display_name }}

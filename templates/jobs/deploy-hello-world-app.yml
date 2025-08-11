@@ -8,7 +8,7 @@ parameters:
 jobs:
   - job: deploy_hello_world
     steps:
-      - template: ../steps/install-ansible.yml
+      - bash: pip install ansible
 
       - template: ../steps/download-secure-file.yml
         parameters:
